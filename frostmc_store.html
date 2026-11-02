@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FrostMC Store</title>
+<style>
+:root {
+  --site-primary: #75d9f5;
+  --site-secondary: #182f50;
+  --site-background: #071321;
+  --site-on-primary: #061522;
+  --site-on-secondary: #edf8ff;
+  --site-on-background: #edf7ff;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  color-scheme: light dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; overflow: hidden; position: relative; }
+#app:before, #app:after { content:""; position:absolute; pointer-events:none; opacity:var(--site-decoration-opacity); filter:blur(2px); border-radius:50%; z-index:0; }
+#app:before { width:420px;height:420px;right:-150px;top:70px;background:radial-gradient(circle,#2e9fc533,transparent 68%); }
+#app:after { width:380px;height:380px;left:-170px;top:720px;background:radial-gradient(circle,#4775d522,transparent 68%); }
+header, main, footer { position:relative; z-index:1; }
+header { border-bottom:1px solid #b7e9ff20; background:linear-gradient(110deg,#0a1c31,#102b49 55%,#0a1b30); }
+.nav { max-width:1160px;margin:auto;padding:calc(18px * var(--site-spacing-scale)) 24px;display:flex;align-items:center;justify-content:space-between;gap:18px; }
+.brand { display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.08em;font-size:19px; }
+.brand-mark { width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(145deg,#b5f0ff,#55bde8);color:#08203a;box-shadow:0 8px 26px #58c8f455;font-size:22px; }
+.nav-actions { display:flex;align-items:center;gap:10px;flex-wrap:wrap; }
+button, .btn { border:0;cursor:pointer;font:inherit;font-weight:800;border-radius:12px;padding:11px 16px;transition:.18s ease; }
+button:hover,.btn:hover { transform:translateY(-2px);filter:brightness(1.08); }
+.btn-primary { background:var(--site-primary);color:var(--site-on-primary);box-shadow:0 8px 24px #66d7f433; }
+.btn-ghost { background:#ffffff0b;border:1px solid #b7e9ff30;color:#eaf8ff; }
+main { max-width:1160px;margin:auto;padding:32px 24px 70px; }
+.hero { border:1px solid #b7e9ff24;border-radius:26px;padding:clamp(28px,6vw,62px);background:linear-gradient(115deg,#112e4cdd,#0d2138ee),radial-gradient(circle at 85% 20%,#67d8ff44,transparent 35%);position:relative;overflow:hidden; }
+.eyebrow { color:#8cdef7;text-transform:uppercase;letter-spacing:.2em;font-size:11px;font-weight:900; }
+h1,h2,h3,p { margin-top:0; }
+h1 { font-family:var(--site-font-heading);font-size:calc(clamp(42px,7vw,76px) * var(--site-heading-scale));line-height:.98;letter-spacing:-.06em;margin:16px 0; }
+h1 span { color:#83e2ff; }
+.hero p { color:#b8cfe1;max-width:610px;line-height:1.7;font-size:16px;margin-bottom:24px; }
+.hero-actions { display:flex;gap:12px;flex-wrap:wrap; }
+.server-pill { display:inline-flex;align-items:center;gap:9px;background:#071726a8;border:1px solid #b7e9ff2b;padding:10px 14px;border-radius:999px;color:#d9f4ff;font-size:13px;margin-top:24px; }
+.dot { width:8px;height:8px;background:#70e3b1;border-radius:50%;box-shadow:0 0 12px #70e3b1; }
+.section { margin-top:54px; }
+.section-head { display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:20px; }
+.section-head h2 { font-size:calc(28px * var(--site-heading-scale));letter-spacing:-.04em;margin:0 0 6px; }
+.muted { color:#9db5c9;font-size:14px;line-height:1.6;margin:0; }
+.grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px; }
+.card { background:linear-gradient(160deg,#142d48,#0c1d31);border:1px solid #a8ddf01f;border-radius:calc(19px * var(--site-radius-scale));padding:22px;box-shadow:0 12px 34px #00000018;display:flex;flex-direction:column;min-height:240px; }
+.card.featured { border-color:#78dfff88;box-shadow:0 0 0 1px #78dfff22,0 18px 45px #46c8f01c; }
+.card-top { display:flex;justify-content:space-between;align-items:center;gap:8px; }
+.rank-icon { width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:#76d9f51a;color:#8be5ff;font-size:21px; }
+.tag { font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:900;color:#8edff8;background:#65d9f51a;border:1px solid #65d9f52b;border-radius:99px;padding:6px 9px; }
+.card h3 { font-size:21px;margin:17px 0 7px; }
+.card .desc { color:#9eb5c8;font-size:13px;line-height:1.6;min-height:40px; }
+.price { font-size:27px;font-weight:900;letter-spacing:-.04em;margin:8px 0 3px; }
+.price small { font-size:12px;color:#9eb5c8;font-weight:600;letter-spacing:0; }
+.card .btn { margin-top:auto;width:100%; }
+.rank-note { color:#87a7bf;font-size:11px;margin-top:10px;text-align:center; }
+.bundle-grid { grid-template-columns:repeat(5,minmax(0,1fr)); }
+.bundle-grid .card { min-height:220px;padding:18px; }
+.bundle-grid .card h3 { font-size:17px; }
+.bundle-grid .price { font-size:24px; }
+.crate-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.crate-grid .card { min-height:180px; }
+.crate-grid .price { font-size:22px; }
+.coin { color:#ffd778; }
+.afk-panel { display:grid;grid-template-columns:1.2fr .8fr;gap:18px;background:linear-gradient(120deg,#132e4a,#0d2035);border:1px solid #8bdfff30;border-radius:24px;padding:24px; }
+.afk-main { display:flex;flex-direction:column;justify-content:center; }
+.afk-main h3 { font-size:24px;margin-bottom:8px; }
+.afk-main p { color:#a9bfd1;line-height:1.65;font-size:14px; }
+.points-box { background:#071827;border:1px solid #b9eaff22;border-radius:18px;padding:20px;display:flex;flex-direction:column;justify-content:center; }
+.points-value { font-size:36px;font-weight:900;color:#ffdc8c;letter-spacing:-.04em; }
+.progress { height:8px;border-radius:20px;background:#ffffff13;overflow:hidden;margin:14px 0 8px; }
+.progress span { display:block;height:100%;width:0;background:linear-gradient(90deg,#6bcdf3,#b7f3ff);transition:width .25s; }
+.timer { color:#a8bfd1;font-size:12px; }
+.notice { border:1px solid #e9c77a44;background:#e9c77a0d;color:#d8c69c;border-radius:13px;padding:13px 15px;font-size:12px;line-height:1.6;margin-top:16px; }
+.footer { border-top:1px solid #b7e9ff20;padding:28px 24px;color:#8fa9be;text-align:center;font-size:12px; }
+.toast { position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#dff8ff;color:#09233a;padding:12px 18px;border-radius:12px;font-weight:800;z-index:9;transition:.2s;box-shadow:0 10px 30px #0005; }
+.toast.show { opacity:1;transform:translate(-50%,0); }
+dialog { border:1px solid #9cddf344;border-radius:20px;background:#10263e;color:#effaff;padding:24px;width:min(420px,calc(100% - 28px));box-shadow:0 24px 80px #0009; }
+dialog::backdrop { background:#020914bb;backdrop-filter:blur(5px); }
+dialog h3 { margin-bottom:8px; }
+dialog p { color:#a9bfd1;font-size:14px;line-height:1.6; }
+.dialog-actions { display:flex;gap:10px;margin-top:20px; }
+.dialog-actions button { flex:1; }
+@media(max-width:850px) { .grid {grid-template-columns:repeat(2,minmax(0,1fr));} .bundle-grid {grid-template-columns:repeat(2,minmax(0,1fr));} }
+@media(max-width:600px) { .nav {padding:14px 16px;} .brand {font-size:16px;} .nav-actions .btn {padding:9px 11px;font-size:12px;} main {padding:22px 15px 50px;} .grid,.bundle-grid,.crate-grid {grid-template-columns:1fr;} .section-head {align-items:start;flex-direction:column;} .afk-panel {grid-template-columns:1fr;} .hero {border-radius:20px;} }
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+  <nav class="nav">
+    <div class="brand"><div class="brand-mark">❄</div><span>FROST<span style="color:#83e2ff">MC</span></span></div>
+    <div class="nav-actions">
+      <button class="btn btn-ghost" id="copyIpTop">Copy IP</button>
+      <button class="btn btn-primary" onclick="document.getElementById('ranks').scrollIntoView({behavior:'smooth'})">Browse Store</button>
+    </div>
+  </nav>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow">✦ The official FrostMC store</div>
+    <h1>Upgrade your<br><span>adventure.</span></h1>
+    <p>Make your mark on FrostMC. Discover exclusive ranks, bundles and crate keys — built for your next adventure.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="document.getElementById('ranks').scrollIntoView({behavior:'smooth'})">Explore Ranks ↗</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('afk').scrollIntoView({behavior:'smooth'})">Earn Free Points</button>
+    </div>
+    <div class="server-pill"><span class="dot"></span> Server IP: <strong>frostmc.mc-hosting.xyz</strong> <button style="padding:3px 8px;background:#ffffff14;color:#eaf8ff;font-size:11px" id="copyIpHero">COPY</button></div>
+  </section>
+
+  <section class="section" id="ranks">
+    <div class="section-head"><div><div class="eyebrow">Choose your status</div><h2>Server Ranks</h2><p class="muted">Affordable upgrades. Higher tiers include the lower-rank perks.</p></div></div>
+    <div class="grid" id="rankGrid"></div>
+    <p class="rank-note">Prices are suggested starter prices. Confirm your store currency and payment provider before publishing.</p>
+  </section>
+
+  <section class="section" id="bundles">
+    <div class="section-head"><div><div class="eyebrow">Gear up</div><h2>Item Bundles</h2><p class="muted">Pick a bundle for your playstyle.</p></div></div>
+    <div class="grid bundle-grid" id="bundleGrid"></div>
+  </section>
+
+  <section class="section" id="crates">
+    <div class="section-head"><div><div class="eyebrow">Open something special</div><h2>Crate Key Shop</h2><p class="muted">Redeem your AFK points for crate keys.</p></div></div>
+    <div class="grid crate-grid" id="crateGrid"></div>
+  </section>
+
+  <section class="section" id="afk">
+    <div class="section-head"><div><div class="eyebrow">Play at your pace</div><h2>AFK Rewards</h2><p class="muted">Earn points over time in this store demo.</p></div></div>
+    <div class="afk-panel">
+      <div class="afk-main">
+        <h3>❄ Stay Frosty. Earn Points.</h3>
+        <p>Start the AFK session to earn <strong class="coin">5 points every minute</strong>. Your points can be spent on any crate key above. The demo timer runs while this page stays open.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-primary" id="afkToggle">Start AFK Session</button>
+          <button class="btn btn-ghost" id="claimNow">Claim minute</button>
+        </div>
+        <div class="notice">Demo only: this browser preview does not connect to a Minecraft server or save balances to a player account. For a live store, connect AFK rewards and purchases to a secure server-side plugin/database, and verify actual AFK status in-game.</div>
+      </div>
+      <div class="points-box">
+        <div class="eyebrow">Your points balance</div>
+        <div class="points-value"><span id="points">0</span> <small style="font-size:13px;color:#9eb5c8">PTS</small></div>
+        <div class="progress"><span id="progressFill"></span></div>
+        <div class="timer" id="afkStatus">Session not started · 5 points per minute</div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer">© 2026 FrostMC · FrostMC Store Preview · Play: frostmc.mc-hosting.xyz<br><span style="display:block;margin-top:7px">Digital perks should be delivered automatically and described clearly before checkout.</span></footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<dialog id="purchaseDialog">
+  <h3 id="dialogTitle">Store item</h3>
+  <p id="dialogText"></p>
+  <div class="dialog-actions">
+    <button class="btn btn-ghost" onclick="document.getElementById('purchaseDialog').close()">Close</button>
+    <button class="btn btn-primary" id="dialogConfirm">Got it</button>
+  </div>
+</dialog>
+<script>
+const IP = "frostmc.mc-hosting.xyz";
+const ranks = [
+  {name:"VIP",usd:1.49,inr:129,icon:"✦",desc:"Your first step into the FrostMC community."},
+  {name:"Galaxy",usd:2.49,inr:209,icon:"✧",desc:"A brighter status with extra server perks."},
+  {name:"Booster",usd:3.49,inr:289,icon:"❄",desc:"A boost for your everyday adventures."},
+  {name:"Glacian",usd:4.99,inr:419,icon:"♢",desc:"Stand out with an icy premium rank."},
+  {name:"Frost",usd:6.99,inr:589,icon:"♛",desc:"The ultimate FrostMC rank and top status.",featured:true}
+];
+const bundles = [
+  {name:"Starter Bundle",usd:1.99,inr:169,desc:"A friendly start for new players.",icon:"✧"},
+  {name:"PvP Bundle",usd:2.99,inr:249,desc:"A combat-themed starter pack.",icon:"⚔"},
+  {name:"Warrior Bundle",usd:3.99,inr:329,desc:"For players ready for the challenge.",icon:"♜"},
+  {name:"Netherite Bundle",usd:5.99,inr:499,desc:"A premium gear-themed bundle.",icon:"◆"},
+  {name:"Ultimate Bundle",usd:8.99,inr:749,desc:"The biggest bundle in the collection.",icon:"♛"}
+];
+const crates = [
+  {name:"Common Crate",cost:200,icon:"▣"},
+  {name:"Silver Crate",cost:400,icon:"◇"},
+  {name:"Sapphire Crate",cost:600,icon:"💎"},
+  {name:"Amethyst Crate",cost:800,icon:"✦"},
+  {name:"Emperor Crate",cost:1000,icon:"♛"},
+  {name:"Divine Crate",cost:1200,icon:"❖"}
+];
+let points = 0, afk = false, elapsed = 0, timer = null;
+const $ = id => document.getElementById(id);
+function toast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+  setTimeout(() => $("toast").classList.remove("show"), 2400);
+}
+function copyIp() {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(IP).then(() => toast("Server IP copied!")).catch(() => toast("Server IP: " + IP));
+  } else toast("Server IP: " + IP);
+}
+$("copyIpTop").addEventListener("click",copyIp);
+$("copyIpHero").addEventListener("click",copyIp);
+function money(usd,inr) { return `<div class="price">$${usd.toFixed(2)} <small>/ ₹${inr.toLocaleString("en-IN")}</small></div>`; }
+function renderCards() {
+  $("rankGrid").innerHTML = ranks.map((r,i)=>`
+    <article class="card ${r.featured?"featured":""}">
+      <div class="card-top"><div class="rank-icon">${r.icon}</div>${r.featured?'<span class="tag">Top rank</span>':`<span class="tag">Rank ${i+1}</span>`}</div>
+      <h3>${r.name}</h3><p class="desc">${r.desc}</p>${money(r.usd,r.inr)}
+      <button class="btn ${r.featured?"btn-primary":"btn-ghost"}" data-buy="${r.name}">Select Rank</button>
+    </article>`).join("");
+  $("bundleGrid").innerHTML = bundles.map(b=>`
+    <article class="card"><div class="card-top"><div class="rank-icon">${b.icon}</div><span class="tag">Bundle</span></div>
+      <h3>${b.name}</h3><p class="desc">${b.desc}</p>${money(b.usd,b.inr)}
+      <button class="btn btn-ghost" data-buy="${b.name}">Select Bundle</button></article>`).join("");
+  $("crateGrid").innerHTML = crates.map(c=>`
+    <article class="card"><div class="card-top"><div class="rank-icon">${c.icon}</div><span class="tag">AFK rewards</span></div>
+      <h3>${c.name}</h3><p class="desc">Redeem points for one ${c.name.toLowerCase()} key.</p>
+      <div class="price"><span class="coin">${c.cost.toLocaleString("en-US")} ✦</span> <small>points</small></div>
+      <button class="btn btn-ghost" data-crate="${c.name}" data-cost="${c.cost}">Redeem Key</button></article>`).join("");
+  document.querySelectorAll("[data-buy]").forEach(btn=>btn.addEventListener("click",()=>showPurchase(btn.dataset.buy)));
+  document.querySelectorAll("[data-crate]").forEach(btn=>btn.addEventListener("click",()=>redeem(btn.dataset.crate,Number(btn.dataset.cost))));
+}
+function showPurchase(name) {
+  $("dialogTitle").textContent = name;
+  $("dialogText").textContent = `You selected ${name}. This preview does not process payments yet. Connect a trusted checkout provider and configure automatic delivery before accepting real purchases.`;
+  $("dialogConfirm").textContent = "Okay";
+  $("dialogConfirm").onclick = () => $("purchaseDialog").close();
+  $("purchaseDialog").showModal();
+}
+function updatePoints() {
+  $("points").textContent = points.toLocaleString("en-US");
+  $("progressFill").style.width = `${(elapsed/60)*100}%`;
+  $("afkStatus").textContent = afk ? `AFK session active · ${60-elapsed} seconds until next 5 points` : "Session paused · 5 points per minute";
+}
+function tick() {
+  if (!afk) return;
+  elapsed += 1;
+  if (elapsed >= 60) {
+    points += 5;
+    elapsed = 0;
+    toast("+5 AFK points earned!");
+  }
+  updatePoints();
+}
+function startAfk() {
+  afk = !afk;
+  $("afkToggle").textContent = afk ? "Pause AFK Session" : "Resume AFK Session";
+  if (afk) {
+    if (!timer) timer = setInterval(tick,1000);
+    toast("AFK demo session started");
+  } else toast("AFK session paused");
+  updatePoints();
+}
+function claimMinute() {
+  if (!afk) { toast("Start your AFK session first."); return; }
+  points += 5;
+  elapsed = 0;
+  updatePoints();
+  toast("Demo: +5 points claimed");
+}
+function redeem(name,cost) {
+  if (points < cost) { toast(`Need ${(cost-points).toLocaleString("en-US")} more points for ${name}.`); return; }
+  points -= cost;
+  updatePoints();
+  $("dialogTitle").textContent = "Key redeemed!";
+  $("dialogText").textContent = `${name} key redeemed in this demo. In a live store, your server plugin must securely deliver the key to your Minecraft account.`;
+  $("dialogConfirm").textContent = "Awesome";
+  $("dialogConfirm").onclick = () => $("purchaseDialog").close();
+  $("purchaseDialog").showModal();
+}
+$("afkToggle").addEventListener("click",startAfk);
+$("claimNow").addEventListener("click",claimMinute);
+renderCards();
+updatePoints();
+</script>
+</body>
+</html>
